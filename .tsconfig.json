@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "commonjs",
+    "target": "es2019",           // de acordo com o ecma 2019  
+    "esModuleInterop": true,      // converter automaticamente imports
+    "allowJs": true               // Permitir arquivos js de config
+  }
+}
