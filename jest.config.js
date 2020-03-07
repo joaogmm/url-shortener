@@ -2,7 +2,7 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  roots: ['<rootDir/src'],
+  roots: ['<rootDir>/src'],
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: ['<rootDir/src/**/*.ts>'],
