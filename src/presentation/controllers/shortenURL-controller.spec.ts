@@ -2,6 +2,7 @@ import { ShortenURLController } from './shortenURL-controller'
 import { MissingParamError } from '../errors/missing-param-error'
 import { URLValidator } from '../protocols/url-validator'
 import { InvalidParamError } from '../errors/invalid-param-error'
+import { ServerError } from '../errors/server-error'
 
 interface SutTypes {
   sut: ShortenURLController
@@ -56,5 +57,23 @@ describe('ShortenURL Controller', () => {
     }
     sut.handle(httpRequest)
     expect(isValidSpy).toBeCalledWith('any_url')
+  })
+
+  test('Should return 500 if URLValidator throws', () => {
+    class URLValidatorStub implements URLValidator {
+      isValid (email: string): boolean {
+        throw new Error()
+      }
+    }
+    const urlValidatorStub = new URLValidatorStub()
+    const sut = new ShortenURLController(urlValidatorStub)
+    const httpRequest = {
+      body: {
+        url: 'invalid_url'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 })
