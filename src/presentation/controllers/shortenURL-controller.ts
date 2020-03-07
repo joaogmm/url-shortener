@@ -1,10 +1,9 @@
 import { HttpResponse, HttpRequest } from '../protocols/http'
 import { MissingParamError } from '../errors/missing-param-error'
-import { badRequest } from '../helpers/http-helper'
+import { badRequest, serverError } from '../helpers/http-helper'
 import { Controller } from '../protocols/controller'
 import { URLValidator } from '../protocols/url-validator'
 import { InvalidParamError } from '../errors/invalid-param-error'
-import { ServerError } from '../errors/server-error'
 
 export class ShortenURLController implements Controller {
   constructor (private readonly urlValidator: URLValidator) {
@@ -21,10 +20,7 @@ export class ShortenURLController implements Controller {
         return badRequest(new InvalidParamError('url'))
       }
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: new ServerError()
-      }
+      return serverError()
     }
   }
 }
