@@ -45,4 +45,16 @@ describe('ShortenURL Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('url'))
   })
+
+  test('Should call URLValidator with correct email', () => {
+    const { sut, urlValidatorStub } = makeSut()
+    const isValidSpy = jest.spyOn(urlValidatorStub, 'isValid').mockReturnValueOnce(false)
+    const httpRequest = {
+      body: {
+        url: 'any_url'
+      }
+    }
+    sut.handle(httpRequest)
+    expect(isValidSpy).toBeCalledWith('any_url')
+  })
 })
