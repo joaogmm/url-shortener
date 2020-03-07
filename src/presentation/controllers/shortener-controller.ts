@@ -1,9 +1,8 @@
-import { Controller } from '../protocols/controller'
-
-export class ShortenerController implements Controller {
+export class ShortenerController {
   handle (httpRequest: any): any {
     return {
-      statusCode: 400
+      statusCode: 400,
+      body: new Error('Missing param: url')
     }
   }
 }
