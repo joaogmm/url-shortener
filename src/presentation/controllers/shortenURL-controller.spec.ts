@@ -11,9 +11,8 @@ const makeAddData = (): AddData => {
   class AddDataStub implements AddData {
     async add (data: InputDataModel): Promise<DataModel> {
       const fakeData = {
-        id: 'valid_id',
-        url: 'valid_url',
-        hashedUrl: 'hashed_url'
+        originalUrl: 'valid_url',
+        shortedUrl: 'hashed_url'
       }
       return new Promise(resolve => resolve(fakeData))
     }
@@ -131,9 +130,8 @@ describe('ShortenURL Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body).toEqual({
-      id: 'valid_id',
-      url: 'valid_url',
-      hashedUrl: 'hashed_url'
+      originalUrl: 'valid_url',
+      shortedUrl: 'hashed_url'
     })
   })
 })
