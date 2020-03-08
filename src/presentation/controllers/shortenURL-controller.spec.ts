@@ -3,12 +3,13 @@ import { MissingParamError } from '../errors/missing-param-error'
 import { URLValidator } from '../protocols/url-validator'
 import { InvalidParamError } from '../errors/invalid-param-error'
 import { ServerError } from '../errors/server-error'
-import { AddData, AddDataModel } from '../../domain/usescases/add-url'
+import { AddData } from '../../domain/usescases/add-url'
 import { DataModel } from '../../domain/models/data'
+import { InputDataModel } from '../../domain/models/input-data'
 
 const makeAddData = (): AddData => {
   class AddDataStub implements AddData {
-    async add (data: AddDataModel): Promise<DataModel> {
+    async add (data: InputDataModel): Promise<DataModel> {
       const fakeData = {
         id: 'valid_id',
         url: 'valid_url',
@@ -102,9 +103,7 @@ describe('ShortenURL Controller', () => {
       }
     }
     await sut.handle(httpRequest)
-    expect(addSpy).toBeCalledWith({
-      url: 'valid_url'
-    })
+    expect(addSpy).toBeCalledWith({ url: 'valid_url' })
   })
 
   test('Should return 500 if AddData throws', async () => {
