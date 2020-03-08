@@ -1,33 +1,47 @@
 import { DbAddData } from './db-add-data'
-import { HashGenerator } from '../protocols/hashGenerator'
+import { DataModel } from '../models/add-url'
+import { AddDataRepository } from '../protocols/add-data-repository'
+
+const makeAddDataRepository = (): AddDataRepository => {
+  class AddDataRepositoryStub implements AddDataRepository {
+    async add (data: DataModel): Promise<DataModel> {
+      const fakeReturn = {
+        _id: 'valid_id',
+        originalUrl: 'original_url',
+        shortedUrl: 'shorted_url'
+      }
+      return new Promise(resolve => resolve(fakeReturn))
+    }
+  }
+  return new AddDataRepositoryStub()
+}
 
 interface SutTypes {
   sut: DbAddData
-  hashGeneratorStub: HashGenerator
+  addDataRepositoryStub: AddDataRepository
 }
 
 const makeSut = (): SutTypes => {
-  class HashGeneratorStub implements HashGenerator {
-    async genHash (hashSize: number): Promise<string> {
-      return new Promise(resolve => resolve('hashed_password'))
-    }
-  }
-  const hashGeneratorStub = new HashGeneratorStub()
-  const sut = new DbAddData(hashGeneratorStub)
+  const addDataRepositoryStub = makeAddDataRepository()
+  const sut = new DbAddData(addDataRepositoryStub)
   return {
     sut,
-    hashGeneratorStub
+    addDataRepositoryStub
   }
 }
 
 describe('DbAddData usecase', () => {
-  test('Should return call hashGenerator with correct value', async () => {
-    const { sut, hashGeneratorStub } = makeSut()
-    const hashGenSpy = jest.spyOn(hashGeneratorStub, 'genHash')
+  test('Should return call addDataRepository with correct value', async () => {
+    const { sut, addDataRepositoryStub } = makeSut()
+    const addSpy = jest.spyOn(addDataRepositoryStub, 'add')
     const data = {
-      url: 'www.google.com'
+      originalUrl: 'valid_url',
+      shortedUrl: 'valid_hash'
     }
     await sut.add(data)
-    expect(hashGenSpy).toHaveBeenCalledWith(8)
+    expect(addSpy).toHaveBeenCalledWith({
+      originalUrl: 'valid_url',
+      shortedUrl: 'valid_hash'
+    })
   })
 })
