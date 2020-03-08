@@ -22,9 +22,13 @@ export class ShortenURLController implements Controller {
         return badRequest(new InvalidParamError('url'))
       }
       const { url } = httpRequest.body
-      this.addData.add({
+      const data = this.addData.add({
         url
       })
+      return {
+        statusCode: 200,
+        body: data
+      }
     } catch (error) {
       return serverError()
     }
