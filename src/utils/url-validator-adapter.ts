@@ -1,7 +1,8 @@
 import { URLValidator } from '../presentation/protocols/url-validator'
+import validator from 'validator'
 
 export class URLValidatorAdapter implements URLValidator {
   isValid (url: string): boolean {
-    return false
+    return validator.isURL(url)
   }
 }
