@@ -7,8 +7,8 @@ const makeAddDataRepository = (): AddDataRepository => {
     async add (data: DataModel): Promise<DataModel> {
       const fakeReturn = {
         _id: 'valid_id',
-        originalUrl: 'original_url',
-        shortedUrl: 'shorted_url'
+        originalUrl: 'valid_url',
+        shortedUrl: 'valid_hash'
       }
       return new Promise(resolve => resolve(fakeReturn))
     }
@@ -40,6 +40,20 @@ describe('DbAddData usecase', () => {
     }
     await sut.add(data)
     expect(addSpy).toHaveBeenCalledWith({
+      originalUrl: 'valid_url',
+      shortedUrl: 'valid_hash'
+    })
+  })
+
+  test('Should return an DataModel on success', async () => {
+    const { sut } = makeSut()
+    const data = {
+      originalUrl: 'valid_url',
+      shortedUrl: 'valid_hash'
+    }
+    const DataModel = await sut.add(data)
+    expect(DataModel).toEqual({
+      _id: 'valid_id',
       originalUrl: 'valid_url',
       shortedUrl: 'valid_hash'
     })
