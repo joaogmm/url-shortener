@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@types/validator": "^12.0.1",
+    "crypto-js": "^4.0.0",
     "is-url": "^1.2.4",
     "validator": "^12.2.0"
   }

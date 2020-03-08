@@ -24,7 +24,7 @@ export class ShortenURLController implements Controller {
         return badRequest(new InvalidParamError('originalUrl'))
       }
       const { originalUrl } = httpRequest.body
-      const shortedUrl = await this.hashGenerator.genHash()
+      const shortedUrl = await this.hashGenerator.createHash()
       const data = await this.addData.add({
         originalUrl,
         shortedUrl
