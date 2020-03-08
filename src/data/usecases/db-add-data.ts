@@ -1,15 +1,14 @@
 import { AddData } from '../../domain/usescases/add-url'
-import { InputDataModel } from '../../domain/models/input-data'
-import { HashGenerator } from '../protocols/hashGenerator'
-import { DataModel } from '../../domain/models/data'
+import { AddDataRepository } from '../protocols/add-data-repository'
+import { DataModel } from '../models/add-url'
 
 export class DbAddData implements AddData {
-  constructor (private readonly hashGenerator: HashGenerator) {
-    this.hashGenerator = hashGenerator
+  constructor (private readonly addDataRepository: AddDataRepository) {
+    this.addDataRepository = addDataRepository
   }
 
-  async add (url: InputDataModel): Promise<DataModel> {
-    await this.hashGenerator.genHash(8)
-    return new Promise(resolve => resolve(null))
+  async add (data: DataModel): Promise<DataModel> {
+    const result = await this.addDataRepository.add(data)
+    return result
   }
 }
