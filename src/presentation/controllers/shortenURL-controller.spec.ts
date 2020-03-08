@@ -22,7 +22,7 @@ const makeAddData = (): AddData => {
 
 const makeHashGenerator = (): HashGenerator => {
   class HashGeneratorStub implements HashGenerator {
-    async genHash (): Promise<string> {
+    async createHash (): Promise<string> {
       const fakeData = ('valid_hash')
       return new Promise(resolve => resolve(fakeData))
     }
