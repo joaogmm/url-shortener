@@ -1,6 +1,6 @@
 import { HttpResponse, HttpRequest } from '../protocols/http'
 import { MissingParamError } from '../errors/missing-param-error'
-import { badRequest, serverError } from '../helpers/http-helper'
+import { badRequest, serverError, ok } from '../helpers/http-helper'
 import { Controller } from '../protocols/controller'
 import { URLValidator } from '../protocols/url-validator'
 import { InvalidParamError } from '../errors/invalid-param-error'
@@ -25,10 +25,7 @@ export class ShortenURLController implements Controller {
       const data = this.addData.add({
         url
       })
-      return {
-        statusCode: 200,
-        body: data
-      }
+      return ok(data)
     } catch (error) {
       return serverError()
     }
