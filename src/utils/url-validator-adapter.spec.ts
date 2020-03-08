@@ -20,4 +20,11 @@ describe('URL Validator Adapter', () => {
     const isValid = sut.isValid('www.google.com')
     expect(isValid).toBe(true)
   })
+
+  test('Should call validator with correct url', () => {
+    const sut = new URLValidatorAdapter()
+    const isURLSpy = jest.spyOn(validator, 'isURL')
+    sut.isValid('www.google.com')
+    expect(isURLSpy).toHaveBeenCalledWith('www.google.com')
+  })
 })
