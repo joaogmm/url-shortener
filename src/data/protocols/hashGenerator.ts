@@ -1,3 +1,3 @@
 export interface HashGenerator {
-  genHash (): Promise<string>
+  createHash (): Promise<string>
 }
