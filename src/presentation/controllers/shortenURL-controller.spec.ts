@@ -3,10 +3,27 @@ import { MissingParamError } from '../errors/missing-param-error'
 import { URLValidator } from '../protocols/url-validator'
 import { InvalidParamError } from '../errors/invalid-param-error'
 import { ServerError } from '../errors/server-error'
+import { AddData, AddDataModel } from '../../domain/usescases/add-url'
+import { DataModel } from '../../domain/models/data'
+
+const makeAddData = (): AddData => {
+  class AddDataStub implements AddData {
+    add (data: AddDataModel): DataModel {
+      const fakeData = {
+        id: 'valid_id',
+        url: 'valid_url',
+        hashedUrl: 'hashed_url'
+      }
+      return fakeData
+    }
+  }
+  return new AddDataStub()
+}
 
 interface SutTypes {
   sut: ShortenURLController
   urlValidatorStub: URLValidator
+  addDataStub: AddData
 }
 
 const makeSut = (): SutTypes => {
@@ -16,10 +33,12 @@ const makeSut = (): SutTypes => {
     }
   }
   const urlValidatorStub = new URLValidatorStub()
-  const sut = new ShortenURLController(urlValidatorStub)
+  const addDataStub = makeAddData()
+  const sut = new ShortenURLController(urlValidatorStub, addDataStub)
   return {
     sut,
-    urlValidatorStub
+    urlValidatorStub,
+    addDataStub
   }
 }
 
@@ -60,20 +79,31 @@ describe('ShortenURL Controller', () => {
   })
 
   test('Should return 500 if URLValidator throws', () => {
-    class URLValidatorStub implements URLValidator {
-      isValid (email: string): boolean {
-        throw new Error()
-      }
-    }
-    const urlValidatorStub = new URLValidatorStub()
-    const sut = new ShortenURLController(urlValidatorStub)
+    const { sut, urlValidatorStub } = makeSut()
+    jest.spyOn(urlValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
     const httpRequest = {
       body: {
-        url: 'invalid_url'
+        url: 'any_url'
       }
     }
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('Should call AddData with correct values', () => {
+    const { sut, addDataStub } = makeSut()
+    const addSpy = jest.spyOn(addDataStub, 'add')
+    const httpRequest = {
+      body: {
+        url: 'valid_url'
+      }
+    }
+    sut.handle(httpRequest)
+    expect(addSpy).toBeCalledWith({
+      url: 'valid_url'
+    })
   })
 })
