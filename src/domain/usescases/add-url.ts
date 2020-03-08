@@ -5,5 +5,5 @@ export interface AddDataModel {
 }
 
 export interface AddData {
-  add (url: AddDataModel): DataModel
+  add (url: AddDataModel): Promise<DataModel>
 }

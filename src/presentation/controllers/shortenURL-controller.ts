@@ -12,7 +12,7 @@ export class ShortenURLController implements Controller {
     this.addData = addData
   }
 
-  handle (httpRequest: HttpRequest): HttpResponse {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       if (!httpRequest.body.url) {
         return badRequest(new MissingParamError('url'))
@@ -22,7 +22,7 @@ export class ShortenURLController implements Controller {
         return badRequest(new InvalidParamError('url'))
       }
       const { url } = httpRequest.body
-      const data = this.addData.add({
+      const data = await this.addData.add({
         url
       })
       return ok(data)
