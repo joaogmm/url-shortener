@@ -22,6 +22,7 @@ export class ShortenURLController implements Controller {
         return badRequest(new InvalidParamError('url'))
       }
       const { url } = httpRequest.body
+
       const data = await this.addData.add({
         url
       })
