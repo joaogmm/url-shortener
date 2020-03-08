@@ -5,11 +5,11 @@ import { InvalidParamError } from '../errors/invalid-param-error'
 import { ServerError } from '../errors/server-error'
 import { AddData } from '../../domain/usescases/add-url'
 import { DataModel } from '../../domain/models/data'
-import { InputDataModel } from '../../domain/models/input-data'
+import { HashGenerator } from '../../data/protocols/hashGenerator'
 
 const makeAddData = (): AddData => {
   class AddDataStub implements AddData {
-    async add (data: InputDataModel): Promise<DataModel> {
+    async add (data: DataModel): Promise<DataModel> {
       const fakeData = {
         originalUrl: 'valid_url',
         shortedUrl: 'hashed_url'
@@ -20,10 +20,21 @@ const makeAddData = (): AddData => {
   return new AddDataStub()
 }
 
+const makeHashGenerator = (): HashGenerator => {
+  class HashGeneratorStub implements HashGenerator {
+    async genHash (): Promise<string> {
+      const fakeData = ('valid_hash')
+      return new Promise(resolve => resolve(fakeData))
+    }
+  }
+  return new HashGeneratorStub()
+}
+
 interface SutTypes {
   sut: ShortenURLController
   urlValidatorStub: URLValidator
   addDataStub: AddData
+  hashGeneratorStub: HashGenerator
 }
 
 const makeSut = (): SutTypes => {
@@ -34,11 +45,13 @@ const makeSut = (): SutTypes => {
   }
   const urlValidatorStub = new URLValidatorStub()
   const addDataStub = makeAddData()
-  const sut = new ShortenURLController(urlValidatorStub, addDataStub)
+  const hashGeneratorStub = makeHashGenerator()
+  const sut = new ShortenURLController(urlValidatorStub, addDataStub, hashGeneratorStub)
   return {
     sut,
     urlValidatorStub,
-    addDataStub
+    addDataStub,
+    hashGeneratorStub
   }
 }
 
@@ -50,7 +63,7 @@ describe('ShortenURL Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('url'))
+    expect(httpResponse.body).toEqual(new MissingParamError('originalUrl'))
   })
 
   test('Should return 400 if an invalid url is provided', async () => {
@@ -58,20 +71,20 @@ describe('ShortenURL Controller', () => {
     jest.spyOn(urlValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
       body: {
-        url: 'invalid_url'
+        originalUrl: 'invalid_url'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('url'))
+    expect(httpResponse.body).toEqual(new InvalidParamError('originalUrl'))
   })
 
-  test('Should call URLValidator with correct email', async () => {
+  test('Should call URLValidator with correct url', async () => {
     const { sut, urlValidatorStub } = makeSut()
     const isValidSpy = jest.spyOn(urlValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
       body: {
-        url: 'any_url'
+        originalUrl: 'any_url'
       }
     }
     await sut.handle(httpRequest)
@@ -85,7 +98,7 @@ describe('ShortenURL Controller', () => {
     })
     const httpRequest = {
       body: {
-        url: 'any_url'
+        originalUrl: 'any_url'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -98,11 +111,14 @@ describe('ShortenURL Controller', () => {
     const addSpy = jest.spyOn(addDataStub, 'add')
     const httpRequest = {
       body: {
-        url: 'valid_url'
+        originalUrl: 'valid_url'
       }
     }
     await sut.handle(httpRequest)
-    expect(addSpy).toBeCalledWith({ url: 'valid_url' })
+    expect(addSpy).toHaveBeenCalledWith({
+      originalUrl: 'valid_url',
+      shortedUrl: 'valid_hash'
+    })
   })
 
   test('Should return 500 if AddData throws', async () => {
@@ -112,7 +128,7 @@ describe('ShortenURL Controller', () => {
     })
     const httpRequest = {
       body: {
-        url: 'any_url'
+        originalUrl: 'any_url'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -124,7 +140,7 @@ describe('ShortenURL Controller', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
-        url: 'valid_url'
+        originalUrl: 'valid_url'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
