@@ -27,5 +27,10 @@ export const MongoHelper = {
   map: (collection: any): any => {
     const { _id, ...collectionWithoutId } = collection
     return Object.assign({}, collectionWithoutId)
+  },
+
+  mapLeaveUrl: (collection: any): any => {
+    const { _id, shortedUrl, ...collectionWithoutId } = collection
+    return Object.assign({}, collectionWithoutId)
   }
 }
