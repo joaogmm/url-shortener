@@ -1,15 +1,28 @@
 import crypto from 'crypto'
-import { CryptoAdapter } from './crypto-adapter'
 
 jest.mock('crypto', () => ({
   async createHash (): Promise<string> {
-    return new Promise(resolve => resolve('createHash'))
+    return new Promise(resolve => resolve('any_value'))
   }
 }))
 
-const encryptation = 'any_value'
-const makeSut = (): CryptoAdapter => {
-  return new CryptoAdapter(encryptation)
+export interface HashGeneratorStub {
+  createHash (): Promise<Object>
+}
+
+const makeSut = (): HashGeneratorStub => {
+  class CryptoAdapter implements HashGeneratorStub {
+    private readonly encryptation: string
+    constructor (encryptation: string) {
+      this.encryptation = encryptation
+    }
+
+    async createHash (): Promise<Object> {
+      const hash = await crypto.createHash(this.encryptation)
+      return hash
+    }
+  }
+  return new CryptoAdapter('any_value')
 }
 
 describe('Crypto Adapter', () => {
