@@ -8,7 +8,9 @@ export class CryptoAdapter implements HashGenerator {
   }
 
   async createHash (): Promise<string> {
-    const hash = await crypto.createHash(this.encryptation).toString().substr(0, 8)
+    var currentDate = (new Date()).valueOf().toString()
+    var random = Math.random().toString()
+    const hash = await crypto.createHash(this.encryptation).update(currentDate + random).digest('hex').substr(0, 8)
     return hash
   }
 }
