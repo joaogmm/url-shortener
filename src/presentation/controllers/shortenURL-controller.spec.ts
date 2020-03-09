@@ -3,7 +3,7 @@ import { MissingParamError } from '../errors/missing-param-error'
 import { URLValidator } from '../protocols/url-validator'
 import { InvalidParamError } from '../errors/invalid-param-error'
 import { ServerError } from '../errors/server-error'
-import { AddData } from '../../domain/usescases/add-url'
+import { AddData } from '../../domain/usescases/add-data'
 import { DataModel } from '../../domain/models/data'
 import { HashGenerator } from '../../data/protocols/hashGenerator'
 
