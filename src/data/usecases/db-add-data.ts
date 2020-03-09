@@ -1,4 +1,4 @@
-import { AddData } from '../../domain/usescases/add-url'
+import { AddData } from '../../domain/usescases/add-data'
 import { AddDataRepository } from '../protocols/add-data-repository'
 import { DataModel } from '../models/add-url'
 
