@@ -8,6 +8,6 @@ export class DataMongoRepository implements AddDataRepository {
     const result = await dataCollection.insertOne(data)
     const urls = result.ops[0]
     console.log(urls)
-    return urls
+    return MongoHelper.map(data)
   }
 }
