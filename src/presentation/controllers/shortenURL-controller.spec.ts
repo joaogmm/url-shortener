@@ -11,7 +11,7 @@ const makeAddData = (): AddData => {
   class AddDataStub implements AddData {
     async add (data: DataModel): Promise<DataModel> {
       const fakeData = {
-        originalUrl: 'valid_url',
+        url: 'valid_url',
         shortedUrl: 'hashed_url'
       }
       return new Promise(resolve => resolve(fakeData))
@@ -63,7 +63,7 @@ describe('ShortenURL Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('originalUrl'))
+    expect(httpResponse.body).toEqual(new MissingParamError('url'))
   })
 
   test('Should return 400 if an invalid url is provided', async () => {
@@ -71,12 +71,12 @@ describe('ShortenURL Controller', () => {
     jest.spyOn(urlValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
       body: {
-        originalUrl: 'invalid_url'
+        url: 'invalid_url'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('originalUrl'))
+    expect(httpResponse.body).toEqual(new InvalidParamError('url'))
   })
 
   test('Should call URLValidator with correct url', async () => {
@@ -84,7 +84,7 @@ describe('ShortenURL Controller', () => {
     const isValidSpy = jest.spyOn(urlValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
       body: {
-        originalUrl: 'any_url'
+        url: 'any_url'
       }
     }
     await sut.handle(httpRequest)
@@ -98,7 +98,7 @@ describe('ShortenURL Controller', () => {
     })
     const httpRequest = {
       body: {
-        originalUrl: 'any_url'
+        url: 'any_url'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -111,13 +111,13 @@ describe('ShortenURL Controller', () => {
     const addSpy = jest.spyOn(addDataStub, 'add')
     const httpRequest = {
       body: {
-        originalUrl: 'valid_url'
+        url: 'valid_url'
       }
     }
     await sut.handle(httpRequest)
     expect(addSpy).toHaveBeenCalledWith({
-      originalUrl: 'valid_url',
-      shortedUrl: 'www.curtin.com/valid_hash'
+      url: 'valid_url',
+      shortedUrl: 'valid_hash'
     })
   })
 
@@ -128,7 +128,7 @@ describe('ShortenURL Controller', () => {
     })
     const httpRequest = {
       body: {
-        originalUrl: 'any_url'
+        url: 'any_url'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -140,14 +140,14 @@ describe('ShortenURL Controller', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
-        originalUrl: 'valid_url'
+        url: 'valid_url'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body).toEqual({
-      originalUrl: 'valid_url',
-      shortedUrl: 'hashed_url'
+      url: 'valid_url',
+      shortedUrl: 'www.curtin.com/valid_hash'
     })
   })
 })
