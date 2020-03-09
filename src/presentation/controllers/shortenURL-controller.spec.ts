@@ -117,7 +117,7 @@ describe('ShortenURL Controller', () => {
     await sut.handle(httpRequest)
     expect(addSpy).toHaveBeenCalledWith({
       originalUrl: 'valid_url',
-      shortedUrl: 'valid_hash'
+      shortedUrl: 'www.curtin.com/valid_hash'
     })
   })
 
