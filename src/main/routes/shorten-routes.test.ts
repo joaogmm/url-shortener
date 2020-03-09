@@ -18,11 +18,11 @@ describe('Shorten Routes', () => {
     accountCollection = await MongoHelper.getCollection('urls')
     await accountCollection.deleteMany({})
   })
-  test('Should return 200', async () => {
+  test('Should return 200 on success', async () => {
     await request(app)
-      .post('/curtin/enshort')
+      .post('/enshort')
       .send({
-        originalUrl: 'www.google.com'
+        url: 'www.google.com'
       })
       .expect(200)
   })
