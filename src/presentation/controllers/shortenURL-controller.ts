@@ -16,20 +16,24 @@ export class ShortenURLController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      if (!httpRequest.body.originalUrl) {
-        return badRequest(new MissingParamError('originalUrl'))
+      if (!httpRequest.body.url) {
+        return badRequest(new MissingParamError('url'))
       }
-      const isValid = this.urlValidator.isValid(httpRequest.body.originalUrl)
+      const isValid = this.urlValidator.isValid(httpRequest.body.url)
       if (!isValid) {
-        return badRequest(new InvalidParamError('originalUrl'))
+        return badRequest(new InvalidParamError('url'))
       }
-      const { originalUrl } = httpRequest.body
-      const shortedUrl = 'www.curtin.com/' + await this.hashGenerator.createHash()
-      const data = await this.addData.add({
-        originalUrl,
+      const { url } = httpRequest.body
+      let shortedUrl = await this.hashGenerator.createHash()
+      await this.addData.add({
+        url,
         shortedUrl
       })
-      return ok(data)
+      shortedUrl = 'www.curtin.com/' + shortedUrl
+      return ok({
+        url,
+        shortedUrl
+      })
     } catch (error) {
       console.log(error)
       return serverError()
