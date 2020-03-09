@@ -1,7 +1,7 @@
 import { Router } from 'express'
+import { makeShortenController } from '../factories/shorten'
+import { adaptRoute } from '../adapters/exporess-route-adapter'
 
 export default (router: Router): void => {
-  router.post('/enshort', (req, res) => {
-    res.json({ ok: 'ok' })
-  })
+  router.post('/enshort', adaptRoute(makeShortenController()))
 }
