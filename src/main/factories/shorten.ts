@@ -5,7 +5,7 @@ import { CryptoAdapter } from '../../infra/cryptography/crypto/crypto-adapter'
 import { DataMongoRepository } from '../../infra/db/mongodb/data-repository/data'
 
 export const makeShortenController = (): ShortenURLController => {
-  const encryptation = ('sha-1')
+  const encryptation = ('md5')
   const urlValidatorAdapter = new URLValidatorAdapter()
   const cryptoAdapter = new CryptoAdapter(encryptation)
   const dataMongoRepository = new DataMongoRepository()
