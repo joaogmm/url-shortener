@@ -1,5 +1,5 @@
 export interface DataModel {
-  originalUrl: string
+  url: string
   shortedUrl: string
 }
 
