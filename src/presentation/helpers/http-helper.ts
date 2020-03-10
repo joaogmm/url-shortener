@@ -15,3 +15,8 @@ export const ok = (data: any): HttpResponse => ({
   statusCode: 200,
   body: data
 })
+
+export const redirect = (data: any): HttpResponse => ({
+  statusCode: 301,
+  body: data
+})
