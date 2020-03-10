@@ -8,7 +8,6 @@ export class RedirectURLController {
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    console.log(httpRequest.params.hash)
     try {
       if (!httpRequest.params.hash) {
         return badRequest(new MissingParamError('hash'))

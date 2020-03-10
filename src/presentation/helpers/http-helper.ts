@@ -20,3 +20,13 @@ export const redirect = (data: any): HttpResponse => ({
   statusCode: 301,
   body: data
 })
+
+export const deleteNoContent = (): HttpResponse => ({
+  statusCode: 204,
+  body: null
+})
+
+export const notFound = (data: any): HttpResponse => ({
+  statusCode: 404,
+  body: data
+})
