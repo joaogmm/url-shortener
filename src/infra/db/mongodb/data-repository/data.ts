@@ -3,6 +3,7 @@ import { AddDataRepository } from '../../../../data/protocols/add-data-repositor
 import { MongoHelper } from '../helpers/mongo-helper'
 import { RetrieveDataRepository } from '../../../../data/protocols/retrieve-data-repository'
 import { RetrieveData } from '../../../../domain/usescases/retrieve-data'
+import { DeleteData } from '../../../../domain/usescases/delete-data'
 
 export class DataMongoRepository implements AddDataRepository, RetrieveDataRepository {
   async add (data: DataModel): Promise<DataModel> {
@@ -19,5 +20,11 @@ export class DataMongoRepository implements AddDataRepository, RetrieveDataRepos
     const data = await dataCollection.findOne(MongoHelper.map({ shortedUrl: input }))
     console.log(MongoHelper.map(data))
     return MongoHelper.mapLeaveUrl(data)
+  }
+
+  async delete (input: DeleteData): Promise<number> {
+    const dataCollection = await MongoHelper.getCollection('urls')
+    const data = await dataCollection.deleteOne({ shortedUrl: input })
+    return data.deletedCount
   }
 }
