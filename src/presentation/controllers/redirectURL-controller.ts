@@ -1,20 +1,21 @@
-import { Response, Request } from 'express'
 import { MissingParamError } from '../errors/missing-param-error'
-import { badRequest, serverError } from '../helpers/http-helper'
+import { badRequest, serverError, redirect } from '../helpers/http-helper'
 import { RetrieveData } from '../../domain/usescases/retrieve-data'
+import { HttpRequest, HttpResponse } from '../protocols/http'
 
 export class RedirectURLController {
   constructor (private readonly retrieveData: RetrieveData) {
   }
 
-  async handle (req: Request, res: Response): Promise<Response> {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+    console.log(httpRequest.params.hash)
     try {
-      if (!req.params.hash) {
+      if (!httpRequest.params.hash) {
         return badRequest(new MissingParamError('hash'))
       }
-      const data = await this.retrieveData.retrieve(req.params.hash)
+      const data = await this.retrieveData.retrieve(httpRequest.params.hash)
       console.log(data)
-      return data
+      return redirect(data)
     } catch (error) {
       console.log(error)
       return serverError()
