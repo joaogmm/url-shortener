@@ -13,7 +13,6 @@ export class RedirectURLController {
         return badRequest(new MissingParamError('hash'))
       }
       const data = await this.retrieveData.retrieve(httpRequest.params.hash)
-      console.log(data)
       return redirect(data)
     } catch (error) {
       console.log(error)

@@ -11,12 +11,11 @@ export class DeleteURLController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const shortUrl = httpRequest.params
+      const shortUrl = httpRequest.params.shortUrl
       if (!shortUrl) {
         return badRequest(new MissingParamError('shortUrl'))
       }
       const result = await this.deleteData.delete(shortUrl)
-      console.log(result)
       if (parseInt(result) > 0) {
         return deleteNoContent()
       } else if (parseInt(result) === 0) {

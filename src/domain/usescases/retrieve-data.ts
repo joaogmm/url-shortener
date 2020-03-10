@@ -1,3 +1,5 @@
+import { InputDataModel } from '../models/input-data'
+
 export interface RetrieveData {
-  retrieve (hash: string): Promise<string>
+  retrieve (hash: InputDataModel): Promise<string>
 }

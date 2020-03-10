@@ -1,5 +1,5 @@
 import { AddData } from '../../domain/usescases/add-data'
-import { AddDataRepository } from '../protocols/add-data-repository'
+import { AddDataRepository } from '../protocols/db/add-data-repository'
 import { DataModel } from '../models/add-url'
 
 export class DbAddData implements AddData {
