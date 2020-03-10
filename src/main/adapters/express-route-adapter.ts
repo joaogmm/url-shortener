@@ -15,7 +15,6 @@ export const adaptRoute = (controller: Controller) => {
     } else if (httpResponse.statusCode === 301) {
       res.redirect(httpResponse.body.url)
     } else if (httpResponse.statusCode === 204) {
-      console.log(httpResponse.statusCode)
       res.status(httpResponse.statusCode).json({
         statusCode: httpResponse.statusCode
       })

@@ -1,4 +1,4 @@
-import { HashGenerator } from '../../../data/protocols/hashGenerator'
+import { HashGenerator } from '../../../data/protocols/cryptography/hashGenerator'
 import crypto from 'crypto'
 
 export class CryptoAdapter implements HashGenerator {

@@ -1,13 +1,12 @@
 import { DbAddData } from './db-add-data'
 import { DataModel } from '../models/add-url'
-import { AddDataRepository } from '../protocols/add-data-repository'
+import { AddDataRepository } from '../protocols/db/add-data-repository'
 
 const makeAddDataRepository = (): AddDataRepository => {
   class AddDataRepositoryStub implements AddDataRepository {
     async add (data: DataModel): Promise<DataModel> {
       const fakeReturn = {
-        _id: 'valid_id',
-        originalUrl: 'valid_url',
+        url: 'valid_url',
         shortedUrl: 'valid_hash'
       }
       return new Promise(resolve => resolve(fakeReturn))
@@ -35,12 +34,12 @@ describe('DbAddData usecase', () => {
     const { sut, addDataRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(addDataRepositoryStub, 'add')
     const data = {
-      originalUrl: 'valid_url',
+      url: 'valid_url',
       shortedUrl: 'valid_hash'
     }
     await sut.add(data)
     expect(addSpy).toHaveBeenCalledWith({
-      originalUrl: 'valid_url',
+      url: 'valid_url',
       shortedUrl: 'valid_hash'
     })
   })
@@ -48,13 +47,12 @@ describe('DbAddData usecase', () => {
   test('Should return an DataModel on success', async () => {
     const { sut } = makeSut()
     const data = {
-      originalUrl: 'valid_url',
+      url: 'valid_url',
       shortedUrl: 'valid_hash'
     }
     const DataModel = await sut.add(data)
     expect(DataModel).toEqual({
-      _id: 'valid_id',
-      originalUrl: 'valid_url',
+      url: 'valid_url',
       shortedUrl: 'valid_hash'
     })
   })

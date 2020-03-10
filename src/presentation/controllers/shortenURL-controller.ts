@@ -5,7 +5,7 @@ import { Controller } from '../protocols/controller'
 import { URLValidator } from '../protocols/url-validator'
 import { InvalidParamError } from '../errors/invalid-param-error'
 import { AddData } from '../../domain/usescases/add-data'
-import { HashGenerator } from '../../data/protocols/hashGenerator'
+import { HashGenerator } from '../../data/protocols/cryptography/hashGenerator'
 
 export class ShortenURLController implements Controller {
   constructor (

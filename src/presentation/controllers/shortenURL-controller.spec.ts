@@ -5,7 +5,7 @@ import { InvalidParamError } from '../errors/invalid-param-error'
 import { ServerError } from '../errors/server-error'
 import { AddData } from '../../domain/usescases/add-data'
 import { DataModel } from '../../domain/models/data'
-import { HashGenerator } from '../../data/protocols/hashGenerator'
+import { HashGenerator } from '../../data/protocols/cryptography/hashGenerator'
 
 const makeAddData = (): AddData => {
   class AddDataStub implements AddData {

@@ -1,7 +1,5 @@
-export interface DeleteDataModel {
-  shortedUrl: string
-}
+import { InputDataModel } from '../models/input-data'
 
 export interface DeleteData {
-  delete (hash: DeleteData): Promise<string>
+  delete (hash: InputDataModel): Promise<string>
 }
