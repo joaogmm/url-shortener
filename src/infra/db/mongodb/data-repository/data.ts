@@ -2,7 +2,7 @@ import { DataModel } from '../../../../data/models/add-url'
 import { AddDataRepository } from '../../../../data/protocols/add-data-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { RetrieveDataRepository } from '../../../../data/protocols/retrieve-data-repository'
-import { RetrieveDataModel } from '../../../../domain/usescases/retrieve-data'
+import { RetrieveData } from '../../../../domain/usescases/retrieve-data'
 
 export class DataMongoRepository implements AddDataRepository, RetrieveDataRepository {
   async add (data: DataModel): Promise<DataModel> {
@@ -13,12 +13,10 @@ export class DataMongoRepository implements AddDataRepository, RetrieveDataRepos
     return MongoHelper.map(data)
   }
 
-  async retrieve (input: RetrieveDataModel): Promise<string> {
+  async retrieve (input: RetrieveData): Promise<string> {
     const dataCollection = await MongoHelper.getCollection('urls')
-    console.log(input)
-    const parts = input.shortedUrl.split('/')
-    input.shortedUrl = parts[1]
-    const data = await dataCollection.findOne(MongoHelper.map(input))
+    console.log('input no retrieve', input)
+    const data = await dataCollection.findOne(MongoHelper.map({ shortedUrl: input }))
     console.log(MongoHelper.map(data))
     return MongoHelper.mapLeaveUrl(data)
   }
