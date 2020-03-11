@@ -7,7 +7,7 @@ export class DbDeleteData implements DeleteData {
     this.deleteDataRepository = deleteDataRepository
   }
 
-  async delete (shortedUrl: InputDataModel): Promise<string> {
+  async delete (shortedUrl: InputDataModel): Promise<number> {
     const result = await this.deleteDataRepository.delete(shortedUrl)
     return result
   }
