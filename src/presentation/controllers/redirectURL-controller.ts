@@ -1,7 +1,8 @@
 import { MissingParamError } from '../errors/missing-param-error'
-import { badRequest, serverError, redirect } from '../helpers/http-helper'
+import { badRequest, serverError, redirect, notFound } from '../helpers/http-helper'
 import { RetrieveData } from '../../domain/usescases/retrieve-data'
 import { HttpRequest, HttpResponse } from '../protocols/http'
+import { NotFoundParamError } from '../errors/notfound-param-error'
 
 export class RedirectURLController {
   constructor (private readonly retrieveData: RetrieveData) {
@@ -12,8 +13,15 @@ export class RedirectURLController {
       if (!httpRequest.params.hash) {
         return badRequest(new MissingParamError('hash'))
       }
-      const data = await this.retrieveData.retrieve(httpRequest.params.hash)
-      return redirect(data)
+      let url = await this.retrieveData.retrieve(httpRequest.params.hash)
+      if (typeof url === 'undefined') {
+        return notFound(new NotFoundParamError(httpRequest.params.hash))
+      }
+      console.log(url)
+      if (!url.startsWith('https://') && (!url.startsWith('http://'))) {
+        url = decodeURI('https://' + url)
+      }
+      return redirect(url)
     } catch (error) {
       console.log(error)
       return serverError()
