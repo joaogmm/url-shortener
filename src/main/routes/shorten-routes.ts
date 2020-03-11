@@ -8,7 +8,7 @@ import { makeDeleteController } from '../factories/delete'
 export default (router: Router): void => {
   router.get('/:hash', adaptRoute(makeRedirectController()))
   // API
-  router.delete('/delete/:shortUrl', adaptRoute(makeDeleteController()))
+  router.delete('/delete/www.curtin.com/:shortUrl', adaptRoute(makeDeleteController()))
   router.post('/enshort', adaptRoute(makeShortenController()))
-  router.get('/retrieve/:shortUrl', adaptRoute(makeRetrieveController()))
+  router.get('/retrieve/www.curtin.com/:shortUrl', adaptRoute(makeRetrieveController()))
 }

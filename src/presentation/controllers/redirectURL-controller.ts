@@ -17,7 +17,6 @@ export class RedirectURLController {
       if (typeof url === 'undefined') {
         return notFound(new NotFoundParamError(httpRequest.params.hash))
       }
-      console.log(url)
       if (!url.startsWith('https://') && (!url.startsWith('http://'))) {
         url = decodeURI('https://' + url)
       }
