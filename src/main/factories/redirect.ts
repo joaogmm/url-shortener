@@ -1,6 +1,6 @@
 import { DataMongoRepository } from '../../infra/db/mongodb/data-repository/data'
 import { DbRetrieveData } from '../../data/usecases/db-retrieve-data'
-import { RedirectURLController } from '../../presentation/controllers/retrieve/redirectURL-controller'
+import { RedirectURLController } from '../../presentation/controllers/redirect/redirectURL-controller'
 
 export const makeRedirectController = (): RedirectURLController => {
   const dataMongoRepository = new DataMongoRepository()

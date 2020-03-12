@@ -1,4 +1,4 @@
-import { ShortenURLController } from '../../presentation/controllers/shortenURL-controller'
+import { ShortenURLController } from '../../presentation/controllers/shorten/shortenURL-controller'
 import { URLValidatorAdapter } from '../../utils/url-validator-adapter'
 import { DbAddData } from '../../data/usecases/db-add-data'
 import { CryptoAdapter } from '../../infra/cryptography/crypto/crypto-adapter'
