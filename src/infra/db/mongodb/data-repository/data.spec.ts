@@ -2,9 +2,9 @@ import { MongoHelper } from '../helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { DataMongoRepository } from './data'
 
-let accountCollection: Collection
+let dataCollection: Collection
 
-describe('Account Mongo Repository', () => {
+describe('data Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
@@ -14,8 +14,8 @@ describe('Account Mongo Repository', () => {
   })
 
   beforeEach(async () => {
-    accountCollection = await MongoHelper.getCollection('urls')
-    await accountCollection.deleteMany({})
+    dataCollection = await MongoHelper.getCollection('urls')
+    await dataCollection.deleteMany({})
   })
 
   const makeSut = (): any => {
