@@ -15,6 +15,7 @@ export class ShortenURLController implements Controller {
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+    console.log(httpRequest)
     try {
       if (!httpRequest.body.url) {
         return badRequest(new MissingParamError('url'))
@@ -35,7 +36,6 @@ export class ShortenURLController implements Controller {
         shortedUrl
       })
     } catch (error) {
-      console.log(error)
       return serverError(error)
     }
   }

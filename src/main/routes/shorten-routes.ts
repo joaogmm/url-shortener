@@ -1,14 +1,12 @@
 import { Router } from 'express'
-import { makeShortenController } from '../factories/shorten'
 import { adaptRoute } from '../adapters/express-route-adapter'
-import { makeRetrieveController } from '../factories/retrieve'
-import { makeRedirectController } from '../factories/redirect'
-import { makeDeleteController } from '../factories/delete'
+import { makeGenericController } from '../factories/operations-factory'
+import { makeShortenController } from '../factories/shorten'
 
 export default (router: Router): void => {
-  router.get('/:hash', adaptRoute(makeRedirectController()))
-  // API
-  router.delete('/delete/www.curtin.com/:shortUrl', adaptRoute(makeDeleteController()))
   router.post('/enshort', adaptRoute(makeShortenController()))
-  router.get('/retrieve/www.curtin.com/:shortUrl', adaptRoute(makeRetrieveController()))
+  // API
+  router.delete('/delete/www.curtin.com/:shortUrl', adaptRoute(makeGenericController('delete')))
+  router.get('/:hash', adaptRoute(makeGenericController('redirect')))
+  router.get('/retrieve/www.curtin.com/:hash', adaptRoute(makeGenericController('retrieve')))
 }
