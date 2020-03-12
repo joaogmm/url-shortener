@@ -64,4 +64,19 @@ describe('RetrieveURL Controller', () => {
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError(null))
   })
+
+  test('Should be correctly treated if it returns undefined', async () => {
+    const { sut, retrieveDataStub } = makeSut()
+    jest.spyOn(retrieveDataStub, 'retrieve').mockImplementationOnce(async () => {
+      return new Promise((resolve, reject) => resolve(undefined))
+    })
+    const httpRequest = {
+      params: {
+        shortUrl: 'any_url'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(404)
+    expect(httpResponse.body).toBeTruthy()
+  })
 })
