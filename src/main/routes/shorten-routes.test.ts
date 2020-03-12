@@ -53,11 +53,6 @@ describe('Shorten Routes', () => {
       .expect(200)
     expect(httpResponse.body.url).toEqual('www.google.com')
   })
-  test('Should return 404 on retrieve fails', async () => {
-    await request(app)
-      .get('/retrieve/www.curtin.com/' + 'any_hash')
-      .expect(404)
-  })
   test('Should return 302 on redirect success', async () => {
     dataCollection = await MongoHelper.getCollection('urls')
     await dataCollection.insertOne({
@@ -69,9 +64,16 @@ describe('Shorten Routes', () => {
       .get('/' + 'any_hash')
       .expect(302) // 302 - Page Found
   })
-  test('Should return 404 on retrieve fails', async () => {
+
+  test('Should return 404 on redirect fails', async () => {
+    dataCollection = await MongoHelper.getCollection('urls')
+    await dataCollection.insertOne({
+      url: 'www.google.com',
+      shortedUrl: 'other_hash',
+      _id: 123456
+    })
     await request(app)
       .get('/' + 'any_hash')
-      .expect(404)
+      .expect(404) // 302 - Page Found
   })
 })
