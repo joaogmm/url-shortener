@@ -12,9 +12,13 @@ export class DataMongoRepository implements AddDataRepository, RetrieveDataRepos
   }
 
   async retrieve (shortUrl: InputDataModel): Promise<string> {
-    const dataCollection = await MongoHelper.getCollection('urls')
-    const data = await dataCollection.findOne({ shortedUrl: shortUrl })
-    return data.url
+    try {
+      const dataCollection = await MongoHelper.getCollection('urls')
+      const data = await dataCollection.findOne({ shortedUrl: shortUrl })
+      return data.url
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async delete (shortUrl: InputDataModel): Promise<number> {
