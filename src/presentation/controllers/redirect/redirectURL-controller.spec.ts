@@ -2,7 +2,7 @@ import { MissingParamError } from '../../errors/missing-param-error'
 import { InputDataModel } from '../../../domain/models/input-data'
 import { ServerError } from '../../errors/server-error'
 import { RetrieveData } from '../../../domain/usescases/retrieve-data'
-import { RedirectURLController } from '../retrieve/redirectURL-controller'
+import { RedirectURLController } from './redirectURL-controller'
 
 const makeRedirectData = (): RetrieveData => {
   class RedirectDataStub implements RetrieveData {
