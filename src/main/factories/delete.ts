@@ -1,5 +1,5 @@
 import { DataMongoRepository } from '../../infra/db/mongodb/data-repository/data'
-import { DeleteURLController } from '../../presentation/controllers/deleteURL-Controller'
+import { DeleteURLController } from '../../presentation/controllers/delete/deleteURL-Controller'
 import { DbDeleteData } from '../../data/usecases/db-delete-data'
 
 export const makeDeleteController = (): DeleteURLController => {
