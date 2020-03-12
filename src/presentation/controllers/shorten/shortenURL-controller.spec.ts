@@ -1,11 +1,11 @@
 import { ShortenURLController } from './shortenURL-controller'
-import { MissingParamError } from '../errors/missing-param-error'
-import { URLValidator } from '../protocols/url-validator'
-import { InvalidParamError } from '../errors/invalid-param-error'
-import { ServerError } from '../errors/server-error'
-import { AddData } from '../../domain/usescases/add-data'
-import { DataModel } from '../../domain/models/data'
-import { HashGenerator } from '../../data/protocols/cryptography/hashGenerator'
+import { MissingParamError } from '../../errors/missing-param-error'
+import { URLValidator } from '../../protocols/url-validator'
+import { InvalidParamError } from '../../errors/invalid-param-error'
+import { ServerError } from '../../errors/server-error'
+import { AddData } from '../../../domain/usescases/add-data'
+import { DataModel } from '../../../domain/models/data'
+import { HashGenerator } from '../../../data/protocols/cryptography/hashGenerator'
 
 const makeAddData = (): AddData => {
   class AddDataStub implements AddData {
@@ -103,7 +103,7 @@ describe('ShortenURL Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual(new ServerError(null))
   })
 
   test('Should call AddData with correct values', async () => {
@@ -133,7 +133,7 @@ describe('ShortenURL Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual(new ServerError(null))
   })
 
   test('Should return 200 if valid data is provided', async () => {
