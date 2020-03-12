@@ -15,7 +15,6 @@ export class RetrieveURLController implements Controller {
         return badRequest(new MissingParamError('URL'))
       }
       const url = await this.retrieveData.retrieve(httpRequest.params.shortUrl)
-      console.log(url)
       if (typeof url === 'undefined' || url === null) {
         return notFound(new NotFoundParamError(httpRequest.params.shortUrl))
       }
