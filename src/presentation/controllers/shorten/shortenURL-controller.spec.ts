@@ -147,7 +147,7 @@ describe('ShortenURL Controller', () => {
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body).toEqual({
       url: 'valid_url',
-      shortedUrl: 'www.curtin.com/valid_hash'
+      shortedUrl: 'http://localhost:5050/valid_hash'
     })
   })
 })

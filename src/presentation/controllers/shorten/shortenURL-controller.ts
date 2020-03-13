@@ -6,6 +6,7 @@ import { URLValidator } from '../../protocols/url-validator'
 import { InvalidParamError } from '../../errors/invalid-param-error'
 import { AddData } from '../../../domain/usescases/add-data'
 import { HashGenerator } from '../../../data/protocols/cryptography/hashGenerator'
+import env from '../../../main/config/env'
 
 export class ShortenURLController implements Controller {
   constructor (
@@ -15,7 +16,6 @@ export class ShortenURLController implements Controller {
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    console.log(httpRequest)
     try {
       if (!httpRequest.body.url) {
         return badRequest(new MissingParamError('url'))
@@ -30,7 +30,7 @@ export class ShortenURLController implements Controller {
         url,
         shortedUrl
       })
-      shortedUrl = 'www.curtin.com/' + shortedUrl
+      shortedUrl = `http://localhost:${env.port}/` + shortedUrl
       return ok({
         url,
         shortedUrl
