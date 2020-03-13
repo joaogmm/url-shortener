@@ -2,6 +2,7 @@ import request from 'supertest'
 import app from '../config/app'
 import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
+import env from '../config/env'
 
 let dataCollection: Collection
 
@@ -27,7 +28,7 @@ describe('Shorten Routes', () => {
   test('Should return 404 on delete failure', async () => {
     dataCollection = await MongoHelper.getCollection('urls')
     await request(app)
-      .delete('/delete/www.curtin.com/:hash')
+      .delete(`/delete/http://localhost:${env.port}/` + 'any_hash')
       .expect(404)
   })
   test('Should return 204 on deletion success', async () => {
@@ -38,7 +39,7 @@ describe('Shorten Routes', () => {
       _id: 123456
     })
     await request(app)
-      .delete('/delete/www.curtin.com/' + 'any_hash')
+      .delete('/delete/' + 'any_hash')
       .expect(204)
   })
   test('Should return 204 on retrieve success', async () => {
@@ -49,7 +50,7 @@ describe('Shorten Routes', () => {
       _id: 123456
     })
     const httpResponse = await request(app)
-      .get('/retrieve/www.curtin.com/' + 'any_hash')
+      .get('/retrieve/' + 'any_hash')
       .expect(200)
     expect(httpResponse.body.url).toEqual('www.google.com')
   })
