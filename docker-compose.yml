@@ -1,7 +1,8 @@
 version: '3'
 services:
   web:
-    build: .
+    image:
+      joaogmm/url-shortener-image:latest
     ports:
       - "5050:5050"
     depends_on:
