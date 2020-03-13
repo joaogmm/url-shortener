@@ -40,8 +40,7 @@ npm install
 ```
 
 ## Utilizando o programa
-
-Serão testadas 4 chamadas, então utilizar uma ferramenta como o Postman torna a utilizacão mais fácil.
+Serão testadas 4 chamadas, então utilizar uma ferramenta como o Postman torna o processo mais fácil.
 
 * **Enshort**: Encurtando o link
 
@@ -66,6 +65,7 @@ A resposta deve ser algo parecido com:
     "shortedUrl": "http://localhost:5050/ee9158cb"
 }
 ```
+<br />
 
 * **Retrieve**: Recuperar o link original
 
@@ -80,6 +80,7 @@ A resposta deve ser algo parecido com:
     "url": "mercadolivre.com",
 }
 ```
+<br />
 
 * **Redirect**: Redirecionar para a página original
 
@@ -88,11 +89,11 @@ A resposta deve ser algo parecido com:
  http://localhost:5050/ee9158cb
 ```
 Você deve ser redirecionado para a a página do mercadolivre.
-
+<br />
 
 * **Delete**: Deletar sua URL curta
 
-Deve enviar para a rota de delete o URL curto.
+DELETE onde deve ser enviado para a rota de delete o URL curto.
 
 ```sh
  http://localhost:5050/delete/ee9158cb
