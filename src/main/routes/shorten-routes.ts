@@ -6,7 +6,7 @@ import { makeShortenController } from '../factories/shorten'
 export default (router: Router): void => {
   router.post('/enshort', adaptRoute(makeShortenController()))
   // API
-  router.delete('/delete/www.curtin.com/:shortUrl', adaptRoute(makeGenericController('delete')))
+  router.delete('/delete/:shortUrl', adaptRoute(makeGenericController('delete')))
   router.get('/:hash', adaptRoute(makeGenericController('redirect')))
-  router.get('/retrieve/www.curtin.com/:hash', adaptRoute(makeGenericController('retrieve')))
+  router.get('/retrieve/:hash', adaptRoute(makeGenericController('retrieve')))
 }
