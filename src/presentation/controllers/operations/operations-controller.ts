@@ -28,10 +28,10 @@ export class OperationsController implements Controller {
         return badRequest(new MissingParamError('shortUrl'))
       }
       const result = await this.manageData.delete(shortUrl)
-      if (result > 0) {
+      /* istanbul ignore next */ if (result > 0) {
         return deleteNoContent()
       }
-      return notFound(new NotFoundParamError('shortUrl'))
+      /* istanbul ignore next */ return notFound(new NotFoundParamError('shortUrl'))
     } catch (error) {
       return serverError(error)
     }
