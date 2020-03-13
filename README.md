@@ -46,12 +46,11 @@ Serão testadas 4 chamadas, então utilizar uma ferramenta como o Postman torna 
 
 Post passando a URL que deseja que seja encurtada
 
-URL do POST
+POST| para o URL
 ```sh
 http://localhost:5050/enshort
-}
 ```
-Body do POST
+POST| Body
 ```sh
 {
     "url": "mercadolivre.com"
@@ -69,7 +68,7 @@ A resposta deve ser algo parecido com:
 
 * **Retrieve**: Recuperar o link original
 
-GET passando na URL o hash para a rota do retrieve
+GET| passando na URL o hash para a rota do retrieve
 ```sh
  http://localhost:5050/retrieve/ee9158cb
 ```
@@ -93,7 +92,7 @@ Você deve ser redirecionado para a a página do mercadolivre.
 
 * **Delete**: Deletar sua URL curta
 
-DELETE onde deve ser enviado para a rota de delete o URL curto.
+DELETE| onde deve ser enviado para a rota de delete o URL curto.
 
 ```sh
  http://localhost:5050/delete/ee9158cb
@@ -114,11 +113,11 @@ docker exec url-shortener_web_1 npm run test:verbose
 ```
 Para mostrar o teste de integração com a cobertura da aplicação:
 ```sh
-ocker exec url-shortener_web_1 npm run test:ci
+Docker exec url-shortener_web_1 npm run test:ci
 ```
 Teste unitário:
 ```sh
-ocker exec url-shortener_web_1 npm run test:unit
+Docker exec url-shortener_web_1 npm run test:unit
 ```
 
 ## Desenho da arquitetura
