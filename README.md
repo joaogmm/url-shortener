@@ -39,6 +39,66 @@ npm install
 'mongodb://localhost:27017/url-shortener'
 ```
 
+## Utilizando o programa
+Serão testadas 4 chamadas, então utilizar uma ferramenta como o Postman torna o processo mais fácil.
+
+* **Enshort**: Encurtando o link
+
+Post passando a URL que deseja que seja encurtada
+
+POST| para o URL
+```sh
+http://localhost:5050/enshort
+```
+POST| Body
+```sh
+{
+    "url": "mercadolivre.com"
+}
+```
+
+A resposta deve ser algo parecido com:
+```sh
+{
+    "url": "mercadolivre.com",
+    "shortedUrl": "http://localhost:5050/ee9158cb"
+}
+```
+<br />
+
+* **Retrieve**: Recuperar o link original
+
+GET| passando na URL o hash para a rota do retrieve
+```sh
+ http://localhost:5050/retrieve/ee9158cb
+```
+
+A resposta deve ser algo parecido com:
+```sh
+{
+    "url": "mercadolivre.com",
+}
+```
+<br />
+
+* **Redirect**: Redirecionar para a página original
+
+É possível testar simplesmente acessando o link encurtado no navegador
+```sh
+ http://localhost:5050/ee9158cb
+```
+Você deve ser redirecionado para a a página do mercadolivre.
+<br />
+
+* **Delete**: Deletar sua URL curta
+
+DELETE| onde deve ser enviado para a rota de delete o URL curto.
+
+```sh
+ http://localhost:5050/delete/ee9158cb
+```
+Você deve receber uma resposta 204 No Content, que quer dizer um sucesso, sem corpo de resposta.
+
 ## Testes
 > Seguindo as instalações do Docker ou Git, pricipalmente na parte do npm install, é possível fazer testes com o jest.
 
@@ -53,13 +113,21 @@ docker exec url-shortener_web_1 npm run test:verbose
 ```
 Para mostrar o teste de integração com a cobertura da aplicação:
 ```sh
-ocker exec url-shortener_web_1 npm run test:ci
+Docker exec url-shortener_web_1 npm run test:ci
 ```
 Teste unitário:
 ```sh
-ocker exec url-shortener_web_1 npm run test:unit
+Docker exec url-shortener_web_1 npm run test:unit
 ```
 
 ## Desenho da arquitetura
 
 A arquitetura que utilizei para o projeto foi em camadas, seguindo fielmente os conceitos do SOLID.
+
+![](https://github.com/joaogmm/url-shortener/blob/master/images/Diagrams-Page-1.png)
+
+
+Já a arquitetura de comunicação do serviço entre as instâncias do programa e do MongoDB
+
+![](https://github.com/joaogmm/url-shortener/blob/master/images/Diagrams-Page-2.png)
+
