@@ -3,8 +3,6 @@
 
   O projeto é um encurtador de URLs. Dada uma URL grande, que consome muitos caractéres, o serviço lhe devolve uma URL curta que é guardada no repositório (MongoDB). Após isso, com chamadas de API é possível deletar, recuperar a URL curta e ser redirecionado quando esta é colocada diretamente no navegador.
 
-![](../header.png)
-
 ## Instalação
 
 > Vamos de docker!
